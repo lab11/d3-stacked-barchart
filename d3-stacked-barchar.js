@@ -15,11 +15,12 @@ d3.stacked_bar_chart = function () {
  * {
  *   "data":   [
  *               {
- *                label: <string to show on the x-axis>,
- *                total: <total height of this bar>
- *                boxes: [
- *                         <height of the box in the stack>
- *                       ]
+ *                 unique_id: <unique id to identify this bar>
+ *                 label:     <string to show on the x-axis>,
+ *                 total:     <total height of this bar>
+ *                 boxes:     [
+ *                              <height of the box in the stack>
+ *                            ]
  *               }
  *             ],
  *   "legend": [
@@ -55,7 +56,7 @@ d3.stacked_bar_chart = function () {
       // Setup all of the scales and axes
       var xScale = d3.scale.ordinal()
         .rangeRoundBands([3, width], .1)
-        .domain(data.map(function (d) { return d.label; }));
+        .domain(data.map(function (d) { return d.unique_id; }));
 
       // Now that we have the xscale, compute the bottom margin with room
       // for the images
@@ -78,6 +79,9 @@ d3.stacked_bar_chart = function () {
         .scale(xScale)
         .orient("bottom");
 
+      // Configure x axis to display labels instead of unique ids
+      xAxis.tickFormat(function (d) { return label_mapping[d]; });
+
       var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left")
@@ -95,6 +99,7 @@ d3.stacked_bar_chart = function () {
 
       // Calculate the coordinate bounds of each box in each column in the graph
       var boxes     = [];
+      var label_mapping = {};
       data.forEach(function (bar) {
         var y0        = 0;
         var box_index = 0;
@@ -103,13 +108,14 @@ d3.stacked_bar_chart = function () {
           box.y0     = y0;
           box.y1     = y0 + value;
           box.height = value;
-          box.x      = xScale(bar.label);
+          box.x      = xScale(bar.unique_id);
           box.label  = legend[box_index];
-          box.id     = bar.label + ":" + box_index;
+          box.id     = bar.unique_id + ":" + box_index;
           y0         = box.y1;
           boxes.push(box);
           box_index++;
         });
+        label_mapping[bar.unique_id] = bar.label;
       });
       
 
@@ -261,7 +267,7 @@ d3.stacked_bar_chart = function () {
       // Animate the bar labels that are already present
       bar_labels.transition()
         .duration(750)
-        .attr("x", function (d, i) { return xScale(d.label) + xScale.rangeBand()/2; })
+        .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
         .attr("y", function (d, i) { return yScale(d.total) - 4; })
         .text(function (d, i) { return d.total; });
 
@@ -274,7 +280,7 @@ d3.stacked_bar_chart = function () {
           .text(function (d) { return d.total; })
         .transition()
           .duration(750)
-          .attr("x", function (d, i) { return xScale(d.label) + xScale.rangeBand()/2; })
+          .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
           .attr("y", function (d, i) { return yScale(d.total) - 4});
 
       // Make the labels disappear if the bar does
@@ -292,7 +298,7 @@ d3.stacked_bar_chart = function () {
 
       bar_pics.transition()
         .duration(750)
-        .attr("x", function (d, i) { return xScale(d.label); })
+        .attr("x", function (d, i) { return xScale(d.unique_id); })
         .attr("y", function (d, i) { return yScale(0) + 30; })
         .attr('width', xScale.rangeBand())  // Make the pic square
         .attr('height', xScale.rangeBand())
@@ -306,7 +312,7 @@ d3.stacked_bar_chart = function () {
           .attr('height', xScale.rangeBand())
         .transition()
           .duration(750)
-          .attr("x", function(d){ return xScale(d.label) })
+          .attr("x", function(d){ return xScale(d.unique_id) })
           .attr("y", function(d){ return yScale(0) + 30});
 
       bar_pics.exit()
