@@ -38,10 +38,21 @@ d3.stacked_bar_chart = function () {
     // Run 
     svg.each(function (d, i) {
 
+      // Default config structure
+      var config = {"start_index": 0   // which element of the boxes array to
+                                       // put on bottom
+                   };
+
       // Break the data block into its required components
       var data   = d.data;
       var legend = d.legend;
       var colors = d.colors;
+
+      if ("config" in d) {
+        for (k in d.config) {
+          config[k] = d.config[k];
+        }
+      }
 
       var outer_svg = d3.select(this);
 
@@ -101,21 +112,29 @@ d3.stacked_bar_chart = function () {
       var label_mapping = {};
       data.forEach(function (bar) {
         var y0        = 0;
-        var box_index = 0;
-        bar.boxes.forEach(function (value) {
+        for (i=0; i<bar.boxes.length; i++) {
           var box    = {};
+          var index  = (i+config.start_index)%bar.boxes.length;
+          var value  = bar.boxes[index];
           box.y0     = y0;
           box.y1     = y0 + value;
           box.height = value;
           box.x      = xScale(bar.unique_id);
-          box.label  = legend[box_index];
-          box.id     = bar.unique_id + ":" + box_index;
+          box.label  = legend[index];
+          box.id     = bar.unique_id + ":" + index;
           y0         = box.y1;
           boxes.push(box);
-          box_index++;
-        });
+        }
         label_mapping[bar.unique_id] = bar.label;
       });
+
+
+      // Obey the config.start_index setting for the legend
+      var legend_values = [];
+      for (i=0; i<legend.length; i++) {
+        var index = (i+config.start_index)%legend.length;
+        legend_values.push({"label": legend[index], "index": index});
+      }
       
 
       //////////////////////////////////////////////////////////////////////////////
@@ -126,9 +145,9 @@ d3.stacked_bar_chart = function () {
       
       // Create the legend based on the legend argument
       legend_rects = svg.selectAll(".legend-rect")
-        .data(legend, function (d, i) { return i; });
+        .data(legend_values, function (d, i) { return d.index; });
       legend_text = svg.selectAll(".legend-text")
-        .data(legend, function (d, i) { return i; });
+        .data(legend_values, function (d, i) { return d.index; });
 
       legend_rects.enter()
         .append("rect")
@@ -138,7 +157,7 @@ d3.stacked_bar_chart = function () {
           .attr("width", 18)
           .attr("height", 18)
           .attr("vertical-align", "top")
-          .style("fill", function (d) { return cScale(d); });
+          .style("fill", function (d) { return cScale(d.label); });
 
       legend_text.enter()
         .append("text")
@@ -148,17 +167,17 @@ d3.stacked_bar_chart = function () {
           .style("text-anchor", "end")
           .style("vertical-align", "middle")
           .style("font-size", 12)
-          .text(function (d) { return d; });
+          .text(function (d) { return d.label; });
 
       legend_rects.transition()
         .attr("x", width - 18)
         .attr("y", function (d, i) {return (((legend.length - i - 1) * 20) + 24); })
-        .style("fill", function (d) { return cScale(d); })
+        .style("fill", function (d) { return cScale(d.label); })
 
       legend_text.transition()
         .attr("x", width - 24)
         .attr("y", function(d, i) { return (((legend.length - i - 1) * 20) + 39); })
-        .text(function (d) { return d; });
+        .text(function (d) { return d.label; });
 
       /////////////////////// Axes
 
