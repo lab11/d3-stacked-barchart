@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test2</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="../d3-stacked-barchar.js"></script>
+
+    <style type="text/css">
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .x-axis path {
+        display: none;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+  <button>Refresh</button>
+
+    <script>
+      var chart = d3.stacked_bar_chart()
+        .y_axis_label("Numbers");
+
+      var data = [{"data": [{"label": "I",
+                             "total": 200,
+                             "boxes": [10,180,10],
+                             "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"},
+                            {"label": "II",
+                             "total": 150,
+                             "boxes": [25,110,15],
+                             "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"},
+                            {"label": "III",
+                             "total": 77,
+                             "boxes": [1,1,75],
+                             "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"},
+                            {"label": "IV",
+                             "total": 50,
+                             "boxes": [25,10,15],
+                             "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"},
+                            {"label": "V",
+                             "total": 10,
+                             "boxes": [3,3,4],
+                             "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"}],
+                  "legend": ["uno", "dos", "tres"],
+                  "colors": ["#334433", "#998822", "#005500"]}];
+
+      var svg = d3.select("body").selectAll("svg")
+        .data(data)
+        .enter().append("svg")
+          .attr("class", "stacked_bar_chart")
+          .attr("width", 1000)
+          .attr("height", 500)
+          .call(chart);
+
+      d3.selectAll("button").on("click", function() {
+        svg.datum(randomize).call(chart);
+      });
+
+      function randomize(d) {
+        if (!d.randomizer) d.randomizer = randomizer(d);
+        d.data[0].boxes = d.data[0].boxes.map(d.randomizer);
+        d.data[0].total = d.data[0].boxes.reduce(sum_cb);
+        return d;
+      }
+
+      function randomizer(d) {
+        var k = 50;
+        return function(d) {
+          return Math.max(0, d + k * (Math.random() - .5));
+        };
+      }
+
+      var sum_cb = function(a, b) {
+        return a + b;
+      };
+    </script>
+  </body
+</html>
