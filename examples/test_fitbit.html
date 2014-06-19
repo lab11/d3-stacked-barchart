@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fitbit Leaderboard Test</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="../d3-stacked-barchar.js"></script>
+
+    <style type="text/css">
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .x-axis path {
+        display: none;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <script>
+      var chart = d3.stacked_bar_chart()
+        .y_axis_label("Steps");
+
+      var data = [{"data": [{"unique_id": 100,
+                             "label": "Brad",
+                             "boxes": [31942,22167,29898,6226,0,17164,31319],
+                             "image": "http://fitbit.eecs.umich.edu/static/img/users/CF5AE008-E3AC-0B77-56E1-D0DA46D4C7BD_profile_125_square.jpg"},
+                            {"unique_id": 101,
+                             "label": "Alex",
+                             "boxes": [10052,17736,15675,16928,892,10415,15856],
+                             "image": "http://fitbit.eecs.umich.edu/static/img/users/defaultProfile_100_male.gif"},
+                            {"unique_id": 102,
+                             "label": "Alfred",
+                             "boxes": [9873,6881,11199,11002,4080,8114,19115],
+                             "image": "http://fitbit.eecs.umich.edu/static/img/users/90803366-22CB-0187-8DD9-916257CCAEBE_profile_125_square.jpg"},
+                            {"unique_id": 103,
+                             "label": "Zhiyoong",
+                             "boxes": [8003,5104,10876,4381,2090,17654,5510],
+                             "image": "http://fitbit.eecs.umich.edu/static/img/users/53F18EE3-8A13-A433-68D0-FDCE74926D67_profile_100_square.png"}],
+                  "legend": ["su", "m", "tu", "w", "th", "f", "sa"],
+                  "colors": ["#F6D565", "#212A55", "#3A5E8C", "#699CC6", "#679146", "#B7BF10", "#FFC72C"],
+                  "config": {"start_index": 5}}];
+
+      var svg = d3.select("body").selectAll("svg")
+        .data(data)
+        .enter().append("svg")
+          .attr("class", "stacked_bar_chart")
+          .attr("width", 1000)
+          .attr("height", 750)
+          .call(chart);
+    </script>
+  </body
+</html>
