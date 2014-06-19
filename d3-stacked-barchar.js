@@ -84,8 +84,7 @@ d3.stacked_bar_chart = function () {
 
       var yAxis = d3.svg.axis()
         .scale(yScale)
-        .orient("left")
-        .tickFormat(d3.format(".2s"));      
+        .orient("left");     
 
       // Create the element to put the actual plot in
       svg = outer_svg.selectAll(".main_chart")
