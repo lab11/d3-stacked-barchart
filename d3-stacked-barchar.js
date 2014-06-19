@@ -17,7 +17,6 @@ d3.stacked_bar_chart = function () {
  *               {
  *                 unique_id: <unique id to identify this bar>
  *                 label:     <string to show on the x-axis>,
- *                 total:     <total height of this bar>
  *                 boxes:     [
  *                              <height of the box in the stack>
  *                            ]
@@ -48,10 +47,16 @@ d3.stacked_bar_chart = function () {
       var legend = d.legend;
       var colors = d.colors;
 
+      // Update the config options with what the client specified
       if ("config" in d) {
         for (k in d.config) {
           config[k] = d.config[k];
         }
+      }
+
+      // Calculate a total for each bar
+      for (i=0; i<data.length; i++) {
+        data[i].total = data[i].boxes.reduce(function (a, b) { return a+b;});
       }
 
       var outer_svg = d3.select(this);
