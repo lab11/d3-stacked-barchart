@@ -1,0 +1,26 @@
+{
+  "name": "d3-stacked-barchart",
+  "main": "d3-stacked-barchart.js",
+  "version": "0.1",
+  "homepage": "https://github.com/lab11/d3-stacked-barchart",
+  "authors": [
+    "Brad Campbell <bradjc5@gmail.com>"
+  ],
+  "description": "Stacked bar charts based on D3",
+  "keywords": [
+    "barchart",
+    "d3"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+	"examples"
+  ],
+  "dependencies": {
+    "d3": "~3.4.8"
+  }
+}
