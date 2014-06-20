@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fitbit Leaderboard</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="../d3-stacked-barchar.js"></script>
+
+    <style type="text/css">
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+      .x-axis path {
+        display: none;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <script>
+      var chart = d3.stacked_bar_chart()
+        .y_axis_label("Steps");
+
+
+
+      var fitbit_json = '[{"username": "Brad", "image": "static/img/users/CF5AE008-E3AC-0B77-56E1-D0DA46D4C7BD_profile_125_square.jpg", "userid": 2, "total_steps": 128700, "step_counts": [{"steps": 31319, "day": "s"}, {"steps": 31942, "day": "su"}, {"steps": 22167, "day": "m"}, {"steps": 29898, "day": "t"}, {"steps": 8187, "day": "w"}, {"steps": 5187, "day": "th"}]}, {"username": "Alex", "image": "static/img/users/defaultProfile_100_male.gif", "userid": 15, "total_steps": 77139, "step_counts": [{"steps": 15856, "day": "s"}, {"steps": 10052, "day": "su"}, {"steps": 17736, "day": "m"}, {"steps": 15675, "day": "t"}, {"steps": 16928, "day": "w"}, {"steps": 892, "day": "th"}]}, {"username": "Alfred", "image": "static/img/users/90803366-22CB-0187-8DD9-916257CCAEBE_profile_125_square.jpg", "userid": 25, "total_steps": 62332, "step_counts": [{"steps": 19115, "day": "s"}, {"steps": 9873, "day": "su"}, {"steps": 6881, "day": "m"}, {"steps": 11199, "day": "t"}, {"steps": 11002, "day": "w"}, {"steps": 4104, "day": "th"}, {"steps": 158, "day": "f"}]}, {"username": "Elaine", "image": "static/img/users/defaultProfile_100_female.gif", "userid": 18, "total_steps": 53780, "step_counts": [{"steps": 8019, "day": "s"}, {"steps": 2406, "day": "su"}, {"steps": 12062, "day": "m"}, {"steps": 13203, "day": "t"}, {"steps": 18057, "day": "w"}, {"steps": 33, "day": "th"}]}, {"username": "Yesheng", "image": "static/img/users/27193F48-E768-D945-ADF0-204F30EB641C_profile_125_square.jpg", "userid": 7, "total_steps": 46404, "step_counts": [{"steps": 14289, "day": "s"}, {"steps": 3532, "day": "su"}, {"steps": 8941, "day": "m"}, {"steps": 4281, "day": "t"}, {"steps": 6711, "day": "w"}, {"steps": 8650, "day": "th"}]}, {"username": "zhiyoong", "image": "static/img/users/53F18EE3-8A13-A433-68D0-FDCE74926D67_profile_100_square.png", "userid": 11, "total_steps": 45697, "step_counts": [{"steps": 1176, "day": "s"}, {"steps": 8032, "day": "su"}, {"steps": 14899, "day": "m"}, {"steps": 6072, "day": "t"}, {"steps": 12267, "day": "w"}, {"steps": 3251, "day": "th"}]}, {"username": "Yihua", "image": "static/img/users/FCF641B2-247D-1A92-845B-5EDC10443FE8_profile_125_square.jpg", "userid": 23, "total_steps": 43206, "step_counts": [{"steps": 7156, "day": "s"}, {"steps": 2111, "day": "su"}, {"steps": 9131, "day": "m"}, {"steps": 114, "day": "t"}, {"steps": 19060, "day": "w"}, {"steps": 5634, "day": "th"}]}, {"username": "Thomas", "image": "static/img/users/33411426-AC5F-CFE5-9EF8-E3A95D664AF0_profile_100_square.png", "userid": 24, "total_steps": 40789, "step_counts": [{"steps": 5935, "day": "s"}, {"steps": 6094, "day": "su"}, {"steps": 9025, "day": "m"}, {"steps": 3658, "day": "t"}, {"steps": 5746, "day": "w"}, {"steps": 10331, "day": "th"}]}, {"username": "Pat", "image": "static/img/users/1601480A-08A5-8B5B-6A28-AA8F79F7484C_profile_125_square.jpg", "userid": 3, "total_steps": 36776, "step_counts": [{"steps": 7334, "day": "s"}, {"steps": 6440, "day": "su"}, {"steps": 6102, "day": "m"}, {"steps": 4373, "day": "t"}, {"steps": 4856, "day": "w"}, {"steps": 7671, "day": "th"}]}, {"username": "Branden", "image": "static/img/users/E63A7068-9444-3D18-2CDD-DECDC081C833_profile_125_square.jpg", "userid": 20, "total_steps": 27433, "step_counts": [{"steps": 4015, "day": "s"}, {"steps": 3596, "day": "su"}, {"steps": 6299, "day": "m"}, {"steps": 5036, "day": "t"}, {"steps": 6280, "day": "w"}, {"steps": 2207, "day": "th"}]}, {"username": "Sam", "image": "static/img/users/defaultProfile_100_male.gif", "userid": 5, "total_steps": 24994, "step_counts": [{"steps": 10467, "day": "s"}, {"steps": 2715, "day": "su"}, {"steps": 1840, "day": "m"}, {"steps": 4191, "day": "t"}, {"steps": 1730, "day": "w"}, {"steps": 4051, "day": "th"}]}, {"username": "William", "image": "static/img/users/defaultProfile_100_male.gif", "userid": 1, "total_steps": 18251, "step_counts": [{"steps": 0, "day": "s"}, {"steps": 8, "day": "su"}, {"steps": 4596, "day": "m"}, {"steps": 6990, "day": "t"}, {"steps": 7, "day": "w"}, {"steps": 6650, "day": "th"}]}]'
+
+      var fitbit = JSON.parse(fitbit_json);
+      console.log(fitbit[0].step_counts[3]);
+
+      var data = [];
+
+      for (i=0; i<fitbit.length; i++) {
+        col = {};
+
+        col.unique_id = fitbit[i].userid;
+        col.image     = "http://fitbit.eecs.umich.edu/" + fitbit[i].image;
+        col.label     = fitbit[i].username;
+        col.boxes     = [];
+        //yeah this is inefficient but who cares
+        for (j=0; j<7; j++) {
+          for (k=0; k<fitbit[i].step_counts.length; k++) {
+            if (fitbit[i].step_counts[k].day == "su" && j == 0) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "m" && j == 1) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "t" && j == 2) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "w" && j == 3) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "th" && j == 4) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "f" && j == 5) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            } else if (fitbit[i].step_counts[k].day == "s" && j == 6) {
+              col.boxes.push(fitbit[i].step_counts[k].steps);
+            }
+          }
+
+          if (col.boxes.length <= j) {
+            col.boxes.push(0);
+          }
+
+        }
+        data.push(col);
+      }
+
+      barchar = [{"data": data,
+                 "legend": ["su", "m", "tu", "w", "th", "f", "sa"],
+                 "colors": ["#F6D565", "#212A55", "#3A5E8C", "#699CC6", "#679146", "#B7BF10", "#FFC72C"],
+                 "config": {"start_index": 6}
+               }];
+
+      console.log(barchar);
+
+
+      var svg = d3.select("body").selectAll("svg")
+        .data(barchar)
+        .enter().append("svg")
+          .attr("class", "stacked_bar_chart")
+          .attr("width", 1000)
+          .attr("height", 750)
+          .call(chart);
+    </script>
+  </body
+</html>
