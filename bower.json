@@ -1,7 +1,7 @@
 {
   "name": "d3-stacked-barchart",
   "main": "d3-stacked-barchart.js",
-  "version": "0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/lab11/d3-stacked-barchart",
   "authors": [
     "Brad Campbell <bradjc5@gmail.com>"
