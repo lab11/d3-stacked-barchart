@@ -6,7 +6,7 @@ d3.stacked_bar_chart = function () {
 
   // Set values for now
   var margin_top = 30;
-  var margin_left = 60;
+  var margin_left = 100;
   var margin_bottom = 100;
   var margin_right = 10;
 
@@ -34,7 +34,7 @@ d3.stacked_bar_chart = function () {
 
   function stacked_bar_chart (svg) {
 
-    // Run 
+    // Run
     svg.each(function (d, i) {
 
       // Default config structure
@@ -100,7 +100,7 @@ d3.stacked_bar_chart = function () {
 
       var yAxis = d3.svg.axis()
         .scale(yScale)
-        .orient("left");     
+        .orient("left");
 
       // Create the element to put the actual plot in
       svg = outer_svg.selectAll(".main_chart")
@@ -140,14 +140,14 @@ d3.stacked_bar_chart = function () {
         var index = (i+config.start_index)%legend.length;
         legend_values.push({"label": legend[index], "index": index});
       }
-      
+
 
       //////////////////////////////////////////////////////////////////////////////
       // Code for animations and actually drawing the graph
       //////////////////////////////////////////////////////////////////////////////
 
       /////////////////////// Legend
-      
+
       // Create the legend based on the legend argument
       legend_rects = svg.selectAll(".legend-rect")
         .data(legend_values, function (d, i) { return d.index; });
