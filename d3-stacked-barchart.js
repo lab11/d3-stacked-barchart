@@ -1,3 +1,10 @@
+/*
+ *  Stacked Bar Charts for D3
+ *
+ *  Author: Brad Campbell <bradjc@umich.edu>
+ *  Author: Will Huang <wwhuang@umich.edu>
+ */
+
 (function() {
 
 d3.stacked_bar_chart = function () {
@@ -103,7 +110,7 @@ d3.stacked_bar_chart = function () {
       svg.enter()
         .append("g")
           .attr("class", "main_chart")
-          .attr("transform", "translate(" + margin_left + "," + margin_top + ")");
+          .attr("transform", "translate("+margin_left+","+margin_top+")");
 
 
       // Calculate the coordinate bounds of each box in each column in the graph
@@ -137,9 +144,9 @@ d3.stacked_bar_chart = function () {
       }
 
 
-      //////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
       // Code for animations and actually drawing the graph
-      //////////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////////
 
       /////////////////////// Legend
 
@@ -154,7 +161,7 @@ d3.stacked_bar_chart = function () {
           .attr("class", "legend-rect")
           .attr("class", function (d, i) { return "bar-box-" + d.index; } )
           .attr("x", width - 18)
-          .attr("y", function (d, i) { return (((legend.length - i - 1) * 20) + 24); })
+          .attr("y", function (d, i) { return (((legend.length-i-1)*20)+24); })
           .attr("width", 18)
           .attr("height", 18)
           .attr("vertical-align", "top");
@@ -163,7 +170,7 @@ d3.stacked_bar_chart = function () {
         .append("text")
           .attr("class", "legend-text")
           .attr("x", width - 24)
-          .attr("y", function(d, i) { return (((legend.length - i - 1) * 20) + 39); })
+          .attr("y", function(d, i) { return (((legend.length-i-1)*20)+39); })
           .style("text-anchor", "end")
           .style("vertical-align", "middle")
           .style("font-size", 12)
@@ -171,11 +178,11 @@ d3.stacked_bar_chart = function () {
 
       legend_rects.transition()
         .attr("x", width - 18)
-        .attr("y", function (d, i) {return (((legend.length - i - 1) * 20) + 24); });
+        .attr("y", function (d, i) { return (((legend.length-i-1)*20)+24); })
 
       legend_text.transition()
         .attr("x", width - 24)
-        .attr("y", function(d, i) { return (((legend.length - i - 1) * 20) + 39); })
+        .attr("y", function(d, i) { return (((legend.length-i-1)*20)+39); })
         .text(function (d) { return d.label; });
 
       /////////////////////// Axes
@@ -278,14 +285,16 @@ d3.stacked_bar_chart = function () {
 
       /////////////////////// Stack/bar labels on top
 
-      // Setup the labels on top of the bars. Also map each label to the correct bar
+      // Setup the labels on top of the bars. Also map each label to the
+      // correct bar
       bar_labels = svg.selectAll(".bar-label")
         .data(data, function (d, i) { return i });
 
       // Animate the bar labels that are already present
       bar_labels.transition()
         .duration(750)
-        .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
+        .attr("x", function (d, i) { return xScale(d.unique_id) +
+                                            xScale.rangeBand()/2; })
         .attr("y", function (d, i) { return yScale(d.total) - 4; })
         .text(function (d, i) { return numberWithCommas(d.total); });
 
@@ -298,7 +307,8 @@ d3.stacked_bar_chart = function () {
           .text(function (d) { return numberWithCommas(d.total); })
         .transition()
           .duration(750)
-          .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
+          .attr("x", function (d, i) { return xScale(d.unique_id) +
+                                              xScale.rangeBand()/2; })
           .attr("y", function (d, i) { return yScale(d.total) - 4});
 
       // Make the labels disappear if the bar does
