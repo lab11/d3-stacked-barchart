@@ -17,6 +17,15 @@
       .x-axis path {
         display: none;
       }
+      .bar-box-0 {
+        fill: #334433;
+      }
+      .bar-box-1 {
+        fill: #880088;
+      }
+      .bar-box-2 {
+        fill: #9310a8;
+      }
     </style>
 
   </head>
@@ -39,8 +48,7 @@
                              "total": 10,
                              "boxes": [3,7],
                              "image": "htttp://a.com/a.jpg"}],
-                  "legend": ["one", "two"],
-                  "colors": ["#334433", "#998822"]},
+                  "legend": ["one", "two"]},
 
                   {"data": [{"unique_id": 100,
                              "label": "I",
@@ -68,7 +76,6 @@
                              "boxes": [3,3,4],
                              "image": "http://images.nike.com/is/image/DotCom/THN_PS/Nike-Strike-Football-SC2140_144_A.jpg?fmt=jpg&qty=85&wid=620&hei=620&bgc=F5F5F5"}],
                   "legend": ["uno", "dos", "tres"],
-                  "colors": ["#334433", "#998822", "#005500"],
                   "config": {"start_index": 1}}];
 
       var svg = d3.select("body").selectAll("svg")

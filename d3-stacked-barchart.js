@@ -25,10 +25,6 @@ d3.stacked_bar_chart = function () {
  *   "legend": [
  *               <text label to be shown in legend>
  *             ],
- *
- *   "colors": [
- *               <hex code>
- *             ],
  *   "config": {
  *               start_index: <which box to put on bottom of stack>
  *             }
@@ -48,7 +44,6 @@ d3.stacked_bar_chart = function () {
       // Break the data block into its required components
       var data   = d.data;
       var legend = d.legend;
-      var colors = d.colors;
 
       // Update the config options with what the client specified
       if ("config" in d) {
@@ -90,10 +85,6 @@ d3.stacked_bar_chart = function () {
         .rangeRound([height, 24])
         .domain([0, d3.max(data, function (d) { return d.total; } )]);
 
-      var cScale = d3.scale.ordinal()
-        .domain(legend)
-        .range(colors);
-
       var xAxis = d3.svg.axis()
         .scale(xScale)
         .orient("bottom");
@@ -128,6 +119,7 @@ d3.stacked_bar_chart = function () {
           box.y1     = y0 + value;
           box.height = value;
           box.x      = xScale(bar.unique_id);
+          box.index  = index;
           box.label  = legend[index];
           box.id     = bar.unique_id + ":" + index;
           y0         = box.y1;
@@ -160,12 +152,12 @@ d3.stacked_bar_chart = function () {
       legend_rects.enter()
         .append("rect")
           .attr("class", "legend-rect")
+          .attr("class", function (d, i) { return "bar-box-" + d.index; } )
           .attr("x", width - 18)
-          .attr("y", function (d, i) {return (((legend.length - i - 1) * 20) + 24); })
+          .attr("y", function (d, i) { return (((legend.length - i - 1) * 20) + 24); })
           .attr("width", 18)
           .attr("height", 18)
-          .attr("vertical-align", "top")
-          .style("fill", function (d) { return cScale(d.label); });
+          .attr("vertical-align", "top");
 
       legend_text.enter()
         .append("text")
@@ -179,8 +171,7 @@ d3.stacked_bar_chart = function () {
 
       legend_rects.transition()
         .attr("x", width - 18)
-        .attr("y", function (d, i) {return (((legend.length - i - 1) * 20) + 24); })
-        .style("fill", function (d) { return cScale(d.label); })
+        .attr("y", function (d, i) {return (((legend.length - i - 1) * 20) + 24); });
 
       legend_text.transition()
         .attr("x", width - 24)
@@ -230,9 +221,9 @@ d3.stacked_bar_chart = function () {
 
       /////////////////////// Configure the individual boxes that make the stack
 
-      // Bind each data element to the correct svg object to make each box in the
-      // stack. If an svg object does not already exist that matches a new one will
-      // be created.
+      // Bind each data element to the correct svg object to make each box in
+      // the stack. If an svg object does not already exist that matches a new
+      // one will be created.
       bar_boxes = svg.selectAll(".bar-box")
         .data(boxes, function (d, i) { return d.id });
 
@@ -250,12 +241,12 @@ d3.stacked_bar_chart = function () {
       bar_boxes.enter()
         .append("rect")
           .attr("class", "bar-box")
+          .attr("class", function (d, i) { return "bar-box-" + d.index; } )
           .attr("data-value", function (d) { return d.height; })
           .attr("x", function (d) { return d.x; })
           .attr("y", function (d) { return yScale(d.y1); })
           .attr("width", xScale.rangeBand())
           .attr("height", function (d) { return yScale(d.y0) - yScale(d.y1); })
-          .style("fill", function (d) { return cScale(d.label); })
           .style("fill-opacity", 0.0)
         .transition()
           .duration(750)
