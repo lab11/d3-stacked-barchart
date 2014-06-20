@@ -265,7 +265,7 @@ d3.stacked_bar_chart = function () {
       // TODO: remove the flickering effect when you mouseover the number itself
       bar_boxes.on("mouseover", function (d) {
           d3.select(this.parentNode).append("text")
-            .text(d3.select(this).attr("data-value"))
+            .text(numberWithCommas(d3.select(this).attr("data-value")))
             .attr("id", "box_value_text")
             .attr("x", d.x+(xScale.rangeBand()/2))
             .attr("y", yScale(d.y1-(d.height/2)))
@@ -296,7 +296,7 @@ d3.stacked_bar_chart = function () {
         .duration(750)
         .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
         .attr("y", function (d, i) { return yScale(d.total) - 4; })
-        .text(function (d, i) { return d.total; });
+        .text(function (d, i) { return numberWithCommas(d.total); });
 
       // Animate and configure tha bar labels on first appearance
       bar_labels.enter()
@@ -304,7 +304,7 @@ d3.stacked_bar_chart = function () {
           .attr("class", "bar-label")
           .attr("text-anchor", "middle")
           .attr()
-          .text(function (d) { return d.total; })
+          .text(function (d) { return numberWithCommas(d.total); })
         .transition()
           .duration(750)
           .attr("x", function (d, i) { return xScale(d.unique_id) + xScale.rangeBand()/2; })
