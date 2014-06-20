@@ -5,10 +5,10 @@ d3.stacked_bar_chart = function () {
   var y_axis_label = "Value";
 
   // Set values for now
-  var margin_top = 15;
-  var margin_left = 100;
+  var margin_top    = 15;
+  var margin_left   = 100;
   var margin_bottom = 100;
-  var margin_right = 10;
+  var margin_right  = 10;
 
 /*
  * data:
@@ -353,9 +353,33 @@ d3.stacked_bar_chart = function () {
 
   }
 
-  stacked_bar_chart.y_axis_label = function(x) {
+  stacked_bar_chart.y_axis_label = function (x) {
     if (!arguments.length) return y_axis_label;
     y_axis_label = x;
+    return stacked_bar_chart;
+  };
+
+  stacked_bar_chart.margin_top = function (x) {
+    if (!arguments.length) return margin_top;
+    margin_top = x;
+    return stacked_bar_chart;
+  };
+
+  stacked_bar_chart.margin_bottom = function (x) {
+    if (!arguments.length) return margin_bottom;
+    margin_bottom = x;
+    return stacked_bar_chart;
+  };
+
+  stacked_bar_chart.margin_left = function (x) {
+    if (!arguments.length) return margin_left;
+    margin_left = x;
+    return stacked_bar_chart;
+  };
+
+  stacked_bar_chart.margin_right = function (x) {
+    if (!arguments.length) return margin_right;
+    margin_right = x;
     return stacked_bar_chart;
   };
 
