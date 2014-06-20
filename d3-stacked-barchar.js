@@ -5,7 +5,7 @@ d3.stacked_bar_chart = function () {
   var y_axis_label = "Value";
 
   // Set values for now
-  var margin_top = 30;
+  var margin_top = 15;
   var margin_left = 100;
   var margin_bottom = 100;
   var margin_right = 10;
@@ -28,7 +28,10 @@ d3.stacked_bar_chart = function () {
  *
  *   "colors": [
  *               <hex code>
- *             ]
+ *             ],
+ *   "config": {
+ *               start_index: <which box to put on bottom of stack>
+ *             }
  * }
  */
 
@@ -76,7 +79,7 @@ d3.stacked_bar_chart = function () {
 
       // Now that we have the xscale, compute the bottom margin with room
       // for the images
-      margin_bottom = 30 + xScale.rangeBand();
+      margin_bottom = 35 + xScale.rangeBand();
 
       // Now we can calculate the height
       var height = svg_height - margin_top - margin_bottom;
@@ -215,6 +218,7 @@ d3.stacked_bar_chart = function () {
       // Animate the X axis if it changes
       svg.select(".x-axis")
         .transition()
+          .attr("transform", "translate(0," + (height) + ")")
           .duration(500)
           .call(xAxis);
 

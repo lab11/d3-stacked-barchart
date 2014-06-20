@@ -7,6 +7,10 @@
     <script src="../d3-stacked-barchar.js"></script>
 
     <style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+      }
       .axis path,
       .axis line {
         fill: none;
@@ -23,6 +27,11 @@
 
   <body>
     <script>
+      var w = window;
+      var d = document;
+      var e = d.documentElement;
+      var g = d.getElementsByTagName('body')[0];
+
       var chart = d3.stacked_bar_chart()
         .y_axis_label("Steps");
 
@@ -83,9 +92,23 @@
         .data(barchar)
         .enter().append("svg")
           .attr("class", "stacked_bar_chart")
-          .attr("width", 1000)
-          .attr("height", 750)
+          .attr("width", document.documentElement.clientWidth)
+          .attr("height", document.documentElement.clientHeight-20)
           .call(chart);
+
+      function updateWindow(){
+        x = w.innerWidth || e.clientWidth || g.clientWidth;
+        y = (w.innerHeight|| e.clientHeight|| g.clientHeight) - 20;
+
+        svg
+          .attr("width", x)
+          .attr("height", y)
+          .call(chart);
+      }
+
+      // Dynamic resizing
+      window.onresize = updateWindow;
+
     </script>
   </body
 </html>
